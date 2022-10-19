@@ -9,10 +9,10 @@ from typing import Any, Dict, Type
 
 from rclpy.node import Node
 
-from ros2bridge.server.ws_server import WebSocketServer as WSS
+from ros2bridge.protocols.ws_server import WSServer as WS
 
 
-def register_client(socket: Type[WSS], client: WSS) -> Dict[str, Any]:
+def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
     """
     Register new ws client.
 

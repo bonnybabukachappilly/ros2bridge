@@ -51,7 +51,10 @@ class WebSocketServer(WebSocketHandler):
         cls = self.__class__
 
         # Register new client
-        _client = register_client(socket=cls, client=self)
+        _client = register_client(
+            socket=cls,  # type: ignore [arg-type]
+            client=self  # type: ignore [arg-type]
+        )
         _client_name = list(_client.keys())[0]
         print(f'Client connected: {_client_name}')
 

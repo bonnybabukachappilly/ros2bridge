@@ -1,8 +1,10 @@
 """Test WS Connection."""
 
+
 from tests.utils.pre_post import PrePost
 
 from websocket import WebSocket
+
 
 pre_post = PrePost()
 
