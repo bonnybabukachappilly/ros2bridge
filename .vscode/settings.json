@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        "**/.mypy_cache": true,
+        "**/.pytest_cache": true,
+        "**/.tox": true,
+        "**/build": true,
+        "**/dist": true,
+        "**/ros2bridge.egg-info": true,
+        "**/UNKNOWN.egg-info": true
+    }
+}
