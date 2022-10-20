@@ -2,6 +2,33 @@
 requires = ["setuptools>=42.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "ros2bridge"
+version = "0.0.5.4"
+description = "A bridge between websocket and DDS of ROS 2"
+readme = "README.md"
+authors = [{ name = "Bonny Babu", email = "bonnybabukachappilly@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: Unix"
+]
+keywords = ["ROS2", "Foxy", "websocket"]
+dependencies = [
+    "tornado >= 5",
+]
+requires-python = ">=3.8"
+
+[project.urls]
+source = "https://github.com/bonnybabukachappilly/ros2bridge/tree/master/src/ros2bridge"
+
+
+[project.optional-dependencies]
+dev = ["flake8", "tox", "pytest", "pytest-cov", "mypy", "websocket-client", "check-manifest"]
+
 [tool.pytest.ini_options]
 addopts = "--cov=slapping"
 testpaths = [
