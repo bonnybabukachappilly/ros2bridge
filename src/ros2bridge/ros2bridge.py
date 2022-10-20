@@ -9,14 +9,17 @@ bridge:
     Complete ROS websocket bridge.
 """
 
+
 import signal
-from typing import Any
+from argparse import Namespace
 
 import rclpy
 from rclpy.node import Node
 
+
 from ros2bridge.server.ws_server import WebSocketServer
 from ros2bridge.utils.settings import get_ip, get_tornado_settings
+
 
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop, PeriodicCallback
@@ -54,13 +57,13 @@ def shutdown_ioloop(server: HTTPServer) -> None:
     signal.signal(signal.SIGINT, stop_handler)
 
 
-def bridge(args: Any = None) -> None:
+def bridge(args: Namespace) -> None:
     """Start ROS WS bridge.
 
     Args:
-        args (Any, optional): _description_. Defaults to None.
+        args (Namespace): Argument from argparse.
     """
-    rclpy.init(args=args)
+    rclpy.init()
 
     RosWSBridge = Node('ros_bridge_ws')
 
@@ -70,7 +73,8 @@ def bridge(args: Any = None) -> None:
         endpoints,  # type: ignore [arg-type]
         **get_tornado_settings()  # type: ignore [arg-type]
     )
-    url = get_ip()
+
+    url = get_ip(port=str(args.port), ngrok=bool(args.ngrok))
 
     sockets = bind_sockets(**url)  # type: ignore [arg-type]
     server = HTTPServer(ws_app)

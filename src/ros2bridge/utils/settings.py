@@ -34,13 +34,19 @@ def get_tornado_settings() -> Dict[str, int]:
     return TORNADO_SETTINGS
 
 
-def get_ip(ngrok=False) -> Dict[str, str]:
-    """
-    Get ip address of the machine.
+def get_ip(port: str, ngrok: bool = False) -> Dict[str, str]:
+    """Get ip address of the machine.
+
+    Args:
+        port (str): Port.
+        ngrok (bool, optional): switch to internal hosting. Defaults to False.
 
     Returns:
         Dict[str, str]: Return ip address if found else 'localhost'.
     """
+    if port:
+        WEBSOCKET_ADDRESS['port'] = port
+
     if ngrok:
         WEBSOCKET_ADDRESS['address'] = '*'
         return WEBSOCKET_ADDRESS

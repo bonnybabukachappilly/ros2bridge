@@ -60,7 +60,6 @@ class WebSocketServer(WebSocketHandler):
 
         # Update client list
         cls.connected_clients[_client_name] = _client[_client_name]
-        print(cls.connected_clients)
 
     def on_message(self, message: str) -> None:  # type: ignore [override]
         """Message received from client.
