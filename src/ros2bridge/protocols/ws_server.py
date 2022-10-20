@@ -1,14 +1,15 @@
 """
 Blueprint of WS Server.
 
-WSServer:
-    WS Server.
+WebSocketServer:
+    Create WS Server.
 """
 
-from typing import Protocol
+
+from typing import Any, Dict, Protocol
 
 
-class WSServer(Protocol):
+class WSServerProtocol(Protocol):
     """
     Create new websocket server.
 
@@ -22,7 +23,7 @@ class WSServer(Protocol):
 
     Methods
     -------
-    on_open(self) -> None:
+    open(self) -> None:
         Handle new client connection.
 
     on_message(self, message: str) -> None:
@@ -33,6 +34,10 @@ class WSServer(Protocol):
     send_message(self, message: str) -> None
         Send given message to client.
 
+    @classmethod
+    def get_client_by_object(cls, client_obj: 'WebSocketServer') -> object:
+        Get client by giving an instance.
+
     check_origin(self, _: str) -> bool:
         Allow CROS.
 
@@ -40,11 +45,13 @@ class WSServer(Protocol):
         CROS Headers.
     """
 
-    def on_open(self) -> None:
+    connected_clients: Dict[object, Any] = {}
+
+    def open(self) -> None:  # type: ignore [override] # noqa: A003
         """Handle new client connection."""
         ...
 
-    def on_message(self, message: str) -> None:
+    def on_message(self, message: str) -> None:  # type: ignore [override]
         """Message received from client.
 
         Args:
@@ -61,6 +68,21 @@ class WSServer(Protocol):
 
         Args:
             message (str): Message to send.
+        """
+        ...
+
+    @classmethod
+    def get_client_by_object(cls, client_obj: 'WSServerProtocol') -> object:
+        """Get client by giving an instance.
+
+        Args:
+            client_obj(WSServerProtocol): Required client object.
+
+        Raises:
+            ClientNotFoundException: Given client not found.
+
+        Returns:
+            object: Return client.
         """
         ...
 

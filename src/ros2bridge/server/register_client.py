@@ -9,7 +9,8 @@ from typing import Any, Dict, Type
 
 from rclpy.node import Node
 
-from ros2bridge.protocols.ws_server import WSServer as WS
+from ros2bridge.operations.publisher import WSPublisher
+from ros2bridge.protocols.ws_server import WSServerProtocol as WS
 
 
 def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
@@ -27,10 +28,10 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
     _node = Node(_client_id)
 
     _operations = {
-        'publish': None,
-        'subscribe': None,
-        'srv_client': None,
-        'action_client': None
+        'publish': WSPublisher(socket, client),
+        # 'subscribe': None,
+        # 'srv_client': None,
+        # 'action_client': None
     }
 
     return {
@@ -45,6 +46,6 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
             'subscriber': {},
             'srv_client': {},
             'action_client': {},
-            'terminate': []
+            'terminate': _node.destroy_node
         }
     }

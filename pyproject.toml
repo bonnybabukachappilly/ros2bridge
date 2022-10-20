@@ -4,11 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ros2bridge"
-version = "0.0.5.6"
+version = "0.0.6"
 description = "A bridge between websocket and DDS of ROS 2"
 readme = "README.md"
 authors = [{ name = "Bonny Babu", email = "bonnybabukachappilly@gmail.com" }]
-# license = { file = "LICENSE" }
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
