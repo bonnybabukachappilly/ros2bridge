@@ -1,0 +1,13 @@
+{
+    "operation": "publish",
+    "topic": "/testing/cmd_vel",
+    "type": "geometry_msgs/Twist",
+    "message": {
+        "linear": {
+            "x": 0.5
+        },
+        "angular": {
+            "z": 0.5
+        }
+    }
+}

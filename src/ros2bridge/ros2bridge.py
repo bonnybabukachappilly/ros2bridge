@@ -61,7 +61,7 @@ def shutdown_ioloop(server: HTTPServer) -> None:
 
 def my_log() -> None:
     """Adding logging function to the module."""
-    
+
     log_file_path = path.join(path.dirname(
         path.abspath(__file__)), 'logging.conf')
 
@@ -93,16 +93,16 @@ def bridge(args: Namespace) -> None:
     server = HTTPServer(ws_app)
     server.add_sockets(sockets)
 
-    try:
-        ros_node = PeriodicCallback(
-            lambda: rclpy.spin_once(  # type: ignore [no-any-return]
-                RosWSBridge, timeout_sec=0.01
-            ),
-            1
-        )
+    ros_node = PeriodicCallback(
+        lambda: rclpy.spin_once(  # type: ignore [no-any-return]
+            RosWSBridge, timeout_sec=0.01
+        ),
+        1
+    )
+    # try:
 
-    except KeyboardInterrupt:
-        log.warning('Terminating WS')
+    # except KeyboardInterrupt:
+    #     log.warning('Terminating WS')
 
     shutdown_ioloop(server)
 
