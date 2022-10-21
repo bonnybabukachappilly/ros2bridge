@@ -5,9 +5,8 @@ RosOperationsProtocol:
     Create ROS Operation.
 """
 
-from dataclasses import dataclass
 import json
-from pdb import set_trace
+from dataclasses import dataclass
 from typing import Any, Dict, Type
 
 from rclpy.node import Node
@@ -89,8 +88,8 @@ class WSPublisher:
             )
 
             try:
-                publisher: Publisher = _client_publisher['publisher']
-                publisher.publish(msg)
+                _publisher: Publisher = _client_publisher['publisher']
+                _publisher.publish(msg)
             except AttributeError as e:
                 data['message'] = str(e)
                 self.client.send_message(json.dumps(data))
