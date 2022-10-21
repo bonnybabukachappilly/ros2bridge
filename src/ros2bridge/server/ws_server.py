@@ -4,7 +4,6 @@ Implementation of WS Server.
 WebSocketServer:
     Create WS Server.
 """
-import logging as log
 from typing import Any, Dict
 
 from ros2bridge.bridge_exceptions.websocket_exception import (
@@ -69,7 +68,7 @@ class WebSocketServer(WebSocketHandler):
             client=self  # type: ignore [arg-type]
         )
         _client_name = list(_client.keys())[0]
-        log.info(f'Client connected: {_client_name}')
+        print(f'Client connected: {_client_name}')
 
         # Update client list
         cls.connected_clients[_client_name] = _client[_client_name]
@@ -96,11 +95,11 @@ class WebSocketServer(WebSocketHandler):
             _client
         ).get('terminate')  # type: ignore [union-attr]
         _terminate()
-        log.warning(f'ROS Node: {_client} terminated.')
+        print(f'ROS Node: {_client} terminated.')
 
         del cls.connected_clients[_client]
 
-        log.warning(f'Client: {_client} disconnected.')
+        print(f'Client: {_client} disconnected.')
 
     def send_message(self, message: str) -> None:
         """Send given message to client.
@@ -114,10 +113,10 @@ class WebSocketServer(WebSocketHandler):
             cls = self.__class__
             _client = cls.get_client_by_object(self)
 
-            log.error(f'Client: {_client} has already closed.')
+            print(f'Client: {_client} has already closed.')
             self.on_close()
         except MessageTypeException:
-            log.error(f'{type(message)} is not supported.')
+            print(f'{type(message)} is not supported.')
 
     @classmethod
     def get_client_by_object(cls, client_obj: WSServerProtocol) -> object:

@@ -5,7 +5,6 @@ get_operation:
 route_message:
 """
 import json
-import logging as log
 from typing import Any, Dict
 
 from ros2bridge.bridge_exceptions.operation_exception import (
@@ -62,4 +61,4 @@ def route_message(client: Dict[str, Any], message: str) -> None:
         _operation.handle_operation(_msg)
 
     except OperationNotFoundException as e:
-        log.warning(e)
+        print(e)

@@ -9,8 +9,7 @@ bridge:
     Complete ROS websocket bridge.
 """
 
-import logging as log
-import logging.config
+
 import signal
 from argparse import Namespace
 from os import path
@@ -59,15 +58,6 @@ def shutdown_ioloop(server: HTTPServer) -> None:
     signal.signal(signal.SIGINT, stop_handler)
 
 
-def my_log() -> None:
-    """Adding logging function to the module."""
-
-    log_file_path = path.join(path.dirname(
-        path.abspath(__file__)), 'logging.conf')
-
-    logging.config.fileConfig(log_file_path)
-
-
 def bridge(args: Namespace) -> None:
     """Start ROS WS bridge.
 
@@ -75,8 +65,6 @@ def bridge(args: Namespace) -> None:
         args (Namespace): Argument from argparse.
     """
     rclpy.init()
-
-    my_log()
 
     RosWSBridge = Node('ros_bridge_ws')
 
@@ -102,17 +90,17 @@ def bridge(args: Namespace) -> None:
     # try:
 
     # except KeyboardInterrupt:
-    #     log.warning('Terminating WS')
+    #     print('Terminating WS')
 
     shutdown_ioloop(server)
 
     try:
-        log.info(
+        print(
             f"Websocket started: 'ws://{url['address']}:{url['port']}'")
         ros_node.start()
         start_ioloop()
     except KeyboardInterrupt:
-        log.warning('Terminating WS')
+        print('Terminating WS')
 
     RosWSBridge.destroy_node()
     rclpy.shutdown()

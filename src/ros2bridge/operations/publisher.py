@@ -6,10 +6,12 @@ RosOperationsProtocol:
 """
 
 from dataclasses import dataclass
+import json
 from pdb import set_trace
 from typing import Any, Dict, Type
 
 from rclpy.node import Node
+from rclpy.publisher import Publisher
 
 from ros2bridge.protocols.ws_server import WSServerProtocol
 from ros2bridge.utils.data_parser import RosDataParser, RosDataType
@@ -71,7 +73,29 @@ class WSPublisher:
                 'message_type': user_message_type
             }
 
-        set_trace()
+        _client_publisher = _client['publisher'][topic_name]
+
+        if _client_publisher['message_type'] != user_message_type:
+            message = 'Topic type mismatch, please check.'
+            data['message'] = message
+            self.client.send_message(json.dumps(data))
+
+        else:
+            msg = self.data_parser.pack_data_to_ros(
+                data=message,
+                module=self.data_parser.get_module_instance(
+                    module=user_message_type
+                )
+            )
+
+            try:
+                publisher: Publisher = _client_publisher['publisher']
+                publisher.publish(msg)
+            except AttributeError as e:
+                data['message'] = str(e)
+                self.client.send_message(json.dumps(data))
+
+        # set_trace()
 
     def check_topic(self, topic_name: str) -> bool:
         """Check if the given topic is already published.
