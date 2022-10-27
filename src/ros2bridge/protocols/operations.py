@@ -6,9 +6,9 @@ RosOperationsProtocol:
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, Protocol, Type
+from typing import Any, Dict, Protocol
 
-from ros2bridge.protocols.ws_server import WSServerProtocol
+from ros2bridge.utils.data_parser import RosDataParser
 
 
 @dataclass
@@ -19,6 +19,7 @@ class RosOperationsProtocol(Protocol):
     Attributes
     ----------
     client: Dict[str, Any]
+    data_parser: RosDataParser
 
     Method:
     -------
@@ -27,6 +28,7 @@ class RosOperationsProtocol(Protocol):
     """
 
     client: Dict[str, Any]
+    data_parser: RosDataParser
 
     def handle_operation(self, data: Dict[str, Any]) -> None:
         """Run ws client based on request.

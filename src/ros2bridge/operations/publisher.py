@@ -12,6 +12,7 @@ from typing import Any, Dict
 from rclpy.node import Node
 from rclpy.publisher import Publisher
 
+from ros2bridge.protocols.ws_server import WSServerProtocol
 from ros2bridge.utils.data_parser import RosDataParser, RosDataType
 
 
@@ -43,7 +44,7 @@ class WSPublisher:
             data (Dict): Request from ws client.
         """
         _client_name: str = self.client['client_id']
-        _client = self.client['client']
+        _client: WSServerProtocol = self.client['client']
         self._node: Node = self.client['client_node']
 
         topic_name = data['topic']
@@ -63,7 +64,7 @@ class WSPublisher:
 
             self.client['publisher'][topic_name] = {
                 'publisher': publisher,
-                'message_type': message_type
+                'message_type': data['type']
             }
 
             print(
@@ -73,7 +74,7 @@ class WSPublisher:
 
         _client_publisher = self.client['publisher'][topic_name]
 
-        if _client_publisher['message_type'] != message_type:
+        if _client_publisher['message_type'] != data['type']:
             message = 'Topic type mismatch, please check.'
             data['message'] = message
             _client.send_message(json.dumps(data))

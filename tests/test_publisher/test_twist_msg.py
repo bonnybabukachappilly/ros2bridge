@@ -1,4 +1,4 @@
-"""Testing ROS2 Twist message."""
+"""Testing ROS2 Twist message for publisher."""
 
 import json
 from threading import Thread

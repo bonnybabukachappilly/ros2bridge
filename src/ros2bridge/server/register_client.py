@@ -7,11 +7,14 @@ register_client: Register new WS client
 from secrets import token_hex
 from typing import Any, Dict, Type
 
+import rclpy
 from rclpy.node import Node
 
 from ros2bridge.operations.publisher import WSPublisher
-# from ros2bridge.operations.subscriber import WSSubscriber
+from ros2bridge.operations.subscriber import WSSubscriber
 from ros2bridge.protocols.ws_server import WSServerProtocol as WS
+
+from tornado.ioloop import PeriodicCallback
 
 
 def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
@@ -28,6 +31,15 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
     _client_id = f'client_{token_hex(8)}'
     _node = Node(_client_id)
 
+    ros_node = PeriodicCallback(
+        lambda: rclpy.spin_once(  # type: ignore [no-any-return]
+            _node, timeout_sec=0.01
+        ),
+        1
+    )
+
+    ros_node.start()
+
     _new_client = {
         'client': client,
         'client_id': _client_id,
@@ -38,12 +50,15 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
         'subscriber': {},
         'srv_client': {},
         'action_client': {},
-        'terminate': _node.destroy_node
+        'terminate': {
+            'node': _node.destroy_node,
+            'callback': ros_node.stop
+        }
     }
 
     _operations = {
         'publish': WSPublisher(_new_client),
-        # 'subscribe': WSSubscriber(socket, client),
+        'subscribe': WSSubscriber(_new_client),
         # 'srv_client': None,
         # 'action_client': None
     }

@@ -94,7 +94,10 @@ class WebSocketServer(WebSocketHandler):
         _terminate = cls.connected_clients.get(
             _client
         ).get('terminate')  # type: ignore [union-attr]
-        _terminate()
+
+        _terminate.get('node')()
+        _terminate.get('callback')()
+
         print(f'ROS Node: {_client} terminated.')
 
         del cls.connected_clients[_client]
