@@ -74,6 +74,46 @@ python3 -m ros2bridge
 * message eg: {"data" : "HELLO WORLD !"}
 * NOTE: message should be in the format of message type
 
+### Subscriber
+
+```json
+{
+    "operation": "subscribe",
+    "topic": "/<topic_name>",
+    "type": "<message_parent>/<message_type>",
+}
+```
+
+* type eg: 'std_msgs/String'
+
+NOTE: Subscribed message will return in this format.
+
+```json
+
+{
+    "operation": "subscribe",
+    "topic": "/<topic_name>",
+    "type": "<message_parent>/<message_type>",
+    "message": "<message>"
+}
+```
+
+* type eg: 'std_msgs/String'
+* message eg: {"data" : "HELLO WORLD !"}
+
+NOTE: To unsubscribe from a topic send following message to server
+
+```json
+{
+    "operation": "subscribe",
+    "topic": "/<topic_name>",
+    "type": "<message_parent>/<message_type>",
+    "unsubscribe": true
+}
+```
+
+* type eg: 'std_msgs/String'
+
 ----
 
 ## Testing
