@@ -7,5 +7,6 @@
         "**/dist": true,
         "**/ros2bridge.egg-info": true,
         "**/UNKNOWN.egg-info": true
-    }
+    },
+    "python.analysis.typeCheckingMode": "off"
 }

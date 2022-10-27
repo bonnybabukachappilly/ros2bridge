@@ -18,11 +18,7 @@ class RosOperationsProtocol(Protocol):
 
     Attributes
     ----------
-    socket: Type[WSServerProtocol]
-        WSServerProtocol class.
-
-    client: WSServerProtocol
-        WSServerProtocol instance.
+    client: Dict[str, Any]
 
     Method:
     -------
@@ -30,8 +26,7 @@ class RosOperationsProtocol(Protocol):
         Run ws client based on request.
     """
 
-    socket: Type[WSServerProtocol]
-    client: WSServerProtocol
+    client: Dict[str, Any]
 
     def handle_operation(self, data: Dict[str, Any]) -> None:
         """Run ws client based on request.

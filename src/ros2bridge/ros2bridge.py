@@ -13,51 +13,15 @@ import signal
 from argparse import Namespace
 
 import rclpy
-from rclpy.node import Node
 
+from ros2bridge.ros.bridge_node import RosWSBridge
 from ros2bridge.server.ws_server import WebSocketServer
 from ros2bridge.utils.settings import get_ip, get_tornado_settings
-
-from std_msgs.msg import String
 
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.netutil import bind_sockets
 from tornado.web import Application
-
-
-class RosWSBridge(Node):
-    """Ros Bridge."""
-
-    def __init__(self):
-        """Ros Bridge."""
-        super().__init__('ros_bridge_ws')
-
-        self.client_number = self.create_publisher(
-            String,
-            'ros2bridge/total_client',
-            10
-        )
-
-        self.clients_list = self.create_publisher(
-            String,
-            'ros2bridge/clients_list',
-            10
-        )
-
-        self.timer = self.create_timer(1, self.publish_client)
-
-    def publish_client(self):
-        """Publish connected clients on timer."""
-        msg_clients_list = String()
-        msg_clients_no = String()
-
-        _clients = list(WebSocketServer.connected_clients.keys())
-
-        msg_clients_list.data = f'List of clients: {_clients}'
-        msg_clients_no.data = f'Number of clients: {len(_clients)}'
-        self.clients_list.publish(msg_clients_list)
-        self.client_number.publish(msg_clients_no)
 
 
 def start_ioloop() -> None:
@@ -119,10 +83,6 @@ def bridge(args: Namespace) -> None:
         ),
         1
     )
-    # try:
-
-    # except KeyboardInterrupt:
-    #     print('Terminating WS')
 
     shutdown_ioloop(server)
 

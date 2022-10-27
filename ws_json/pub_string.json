@@ -1,0 +1,8 @@
+{
+    "operation": "publish",
+    "topic": "/testing/string",
+    "type": "std_msgs/String",
+    "message": {
+        "data": "Hello"
+    }
+}

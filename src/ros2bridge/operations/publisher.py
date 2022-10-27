@@ -1,5 +1,5 @@
 """
-Blueprint of ROS Operation.
+ROS Publisher implementation.
 
 RosOperationsProtocol:
     Create ROS Operation.
@@ -7,27 +7,24 @@ RosOperationsProtocol:
 
 import json
 from dataclasses import dataclass
-from typing import Any, Dict, Type
+from typing import Any, Dict
 
 from rclpy.node import Node
 from rclpy.publisher import Publisher
 
-from ros2bridge.protocols.ws_server import WSServerProtocol
 from ros2bridge.utils.data_parser import RosDataParser, RosDataType
 
 
 @dataclass
 class WSPublisher:
     """
-    Model class for creating different ros operations.
+    ROS Publisher.
+
+    Create ros publisher and publish client message.
 
     Attributes
     ----------
-    socket: Type[WSServerProtocol]
-        WSServerProtocol class.
-
-    client: WSServerProtocol
-        WSServerProtocol instance.
+    client: Dict[str, Any]
 
     Method:
     -------
@@ -35,8 +32,7 @@ class WSPublisher:
         Run ws client based on request.
     """
 
-    socket: Type[WSServerProtocol]
-    client: WSServerProtocol
+    client: Dict[str, Any]
 
     data_parser = RosDataParser(data_type=RosDataType.MESSAGE)
 
@@ -46,19 +42,17 @@ class WSPublisher:
         Args:
             data (Dict): Request from ws client.
         """
-        _client_name = self.socket.get_client_by_object(self.client)
-        _client = self.socket.connected_clients[_client_name]
-
-        self._node: Node = _client['client_node']
+        _client_name: str = self.client['client_id']
+        _client = self.client['client']
+        self._node: Node = self.client['client_node']
 
         topic_name = data['topic']
-        user_message_type = data['type']
+        message_type = data['type']
         message = data['message']
 
-        # set_trace()
         if not self.check_topic(topic_name):
             message_type = self.data_parser.import_type(
-                package=user_message_type
+                package=message_type
             )
 
             publisher = self._node.create_publisher(
@@ -67,23 +61,28 @@ class WSPublisher:
                 10
             )
 
-            _client['publisher'][topic_name] = {
+            self.client['publisher'][topic_name] = {
                 'publisher': publisher,
-                'message_type': user_message_type
+                'message_type': message_type
             }
 
-        _client_publisher = _client['publisher'][topic_name]
+            print(
+                f'Client: {_client_name} created a publisher. | ' +
+                f'Topic: {topic_name} | Type: {data["type"]}'
+            )
 
-        if _client_publisher['message_type'] != user_message_type:
+        _client_publisher = self.client['publisher'][topic_name]
+
+        if _client_publisher['message_type'] != message_type:
             message = 'Topic type mismatch, please check.'
             data['message'] = message
-            self.client.send_message(json.dumps(data))
+            _client.send_message(json.dumps(data))
 
         else:
             msg = self.data_parser.pack_data_to_ros(
                 data=message,
                 module=self.data_parser.get_module_instance(
-                    module=user_message_type
+                    module=message_type
                 )
             )
 
@@ -92,9 +91,7 @@ class WSPublisher:
                 _publisher.publish(msg)
             except AttributeError as e:
                 data['message'] = str(e)
-                self.client.send_message(json.dumps(data))
-
-        # set_trace()
+                _client.send_message(json.dumps(data))
 
     def check_topic(self, topic_name: str) -> bool:
         """Check if the given topic is already published.
