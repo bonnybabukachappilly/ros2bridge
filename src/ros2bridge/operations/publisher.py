@@ -52,29 +52,29 @@ class WSPublisher:
         message = data['message']
 
         if not self.check_topic(topic_name):
-            message_type = self.data_parser.import_type(
+            ros_msg_type = self.data_parser.import_type(
                 package=message_type
             )
 
             publisher = self._node.create_publisher(
-                message_type,
+                ros_msg_type,
                 topic_name,
                 10
             )
 
             self.client['publisher'][topic_name] = {
                 'publisher': publisher,
-                'message_type': data['type']
+                'message_type': message_type
             }
 
             print(
                 f'Client: {_client_name} created a publisher. | ' +
-                f'Topic: {topic_name} | Type: {data["type"]}'
+                f'Topic: {topic_name} | Type: {message_type}'
             )
 
         _client_publisher = self.client['publisher'][topic_name]
 
-        if _client_publisher['message_type'] != data['type']:
+        if _client_publisher['message_type'] != message_type:
             message = 'Topic type mismatch, please check.'
             data['message'] = message
             _client.send_message(json.dumps(data))

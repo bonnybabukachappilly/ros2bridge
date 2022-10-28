@@ -10,8 +10,8 @@ fixture:
 """
 
 
-from typing import Generator
 from contextlib import closing, contextmanager
+from typing import Generator
 
 import pytest
 

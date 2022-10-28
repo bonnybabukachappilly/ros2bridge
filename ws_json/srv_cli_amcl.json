@@ -1,0 +1,15 @@
+[
+{
+    "operation": "srv_client",
+    "action": "create",
+    "srv_name": "/amcl/get_state",
+    "srv_type": "lifecycle_msgs/GetState"
+},
+{
+    "operation": "srv_client",
+    "action": "call",
+    "srv_name": "/amcl/get_state",
+    "srv_type": "lifecycle_msgs/GetState",
+    "message": {}
+}
+]

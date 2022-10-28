@@ -11,6 +11,7 @@ import rclpy
 from rclpy.node import Node
 
 from ros2bridge.operations.publisher import WSPublisher
+from ros2bridge.operations.service_client import WSSrvClient
 from ros2bridge.operations.subscriber import WSSubscriber
 from ros2bridge.protocols.ws_server import WSServerProtocol as WS
 
@@ -59,7 +60,7 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
     _operations = {
         'publish': WSPublisher(_new_client),
         'subscribe': WSSubscriber(_new_client),
-        # 'srv_client': None,
+        'srv_client': WSSrvClient(_new_client),
         # 'action_client': None
     }
 

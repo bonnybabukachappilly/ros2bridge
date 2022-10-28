@@ -5,6 +5,7 @@ get_operation:
 route_message:
 """
 import json
+from json.decoder import JSONDecodeError
 from typing import Any, Dict
 
 from ros2bridge.bridge_exceptions.operation_exception import (
@@ -50,9 +51,9 @@ def route_message(client: Dict[str, Any], message: str) -> None:
         client (Dict[str, Any]): WS Client.
         message (str): Client request.
     """
-    _msg = json.loads(message)
-
     try:
+        _msg = json.loads(message)
+
         _operation: RO = get_operation(
             client=client,
             operation=_msg['operation']
@@ -62,3 +63,8 @@ def route_message(client: Dict[str, Any], message: str) -> None:
 
     except OperationNotFoundException as e:
         print(e)
+
+    except JSONDecodeError:
+        msg = 'Unsupported request. Please check the request syntax.'
+        client.get('client').send_message(json.dumps({'ERROR': msg}))
+        print(msg)
