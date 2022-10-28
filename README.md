@@ -114,6 +114,36 @@ NOTE: To unsubscribe from a topic send following message to server
 
 * type eg: 'std_msgs/String'
 
+### SERVICE CLIENT
+
+For creating a service client
+
+```json
+{
+    "operation": "srv_client",
+    "action": "create",
+    "srv_name": "/<service_name>",
+    "srv_type": "<service_parent>/<service_type>"
+}
+```
+
+For calling a service client
+
+```json
+{
+    "operation": "srv_client",
+    "action": "call",
+    "srv_name": "/<service_name>",
+    "srv_type": "<service_parent>/<service_type>",
+    "message": "<message>"
+
+}
+```
+
+* NOTE: message should be in the format of service type
+
+----
+
 ----
 
 ## Testing
