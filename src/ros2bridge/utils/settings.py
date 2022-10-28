@@ -1,11 +1,16 @@
-"""
+"""Settings.
+
 Settings for both ROS and WS.
 
-TORNADO_SETTINGS: WS Settings.
-WEBSOCKET_ADDRESS: WS Url.
+Attributes:
+    TORNADO_SETTINGS: WS Settings.
+    WEBSOCKET_ADDRESS: WS Url.
+Methods:
+    get_tornado_settings() -> Dict[str, int]:
+        Get setting of the websocket.
 
-get_tornado_settings: Get setting of the websocket.
-get_ip: Get IP address for hosting ws.
+    get_ip(port: str, ngrok: bool = False) -> Dict[str, str]:
+        Get IP address for hosting ws.
 """
 
 import socket

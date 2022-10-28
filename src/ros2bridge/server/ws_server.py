@@ -1,8 +1,10 @@
-"""
-Implementation of WS Server.
+"""Websocket Server.
 
-WebSocketServer:
-    Create WS Server.
+Websocket side of the ros2bridge.
+
+Class:
+    WebSocketServer(WebSocketHandler):
+        Create new websocket server.
 """
 from typing import Any, Dict
 
@@ -27,33 +29,32 @@ class WebSocketServer(WebSocketHandler):
     Create a websocket server using tornado.
     Handles all incoming and outgoing clients and requests.
 
-    Attributes
-    ----------
-    connected_clients: Dict[object, Any]
-        List of client connected to the server.
+    Attributes:
+        connected_clients: Dict[object, Any]
+            List of client connected to the server.
 
-    Methods
-    -------
-    open(self) -> None:
-        Handle new client connection.
+    Methods:
+        open(self) -> None:
+            Handle new client connection.
 
-    on_message(self, message: str) -> None:
-        Message received from client.
-    on_close(self) -> None:
-        Client disconnected.
+        on_message(self, message: str) -> None:
+            Message received from client.
 
-    send_message(self, message: str) -> None
-        Send given message to client.
+        on_close(self) -> None:
+            Client disconnected.
 
-    @classmethod
-    def get_client_by_object(cls, client_obj: 'WebSocketServer') -> object:
-        Get client by giving an instance.
+        send_message(self, message: str) -> None
+            Send given message to client.
 
-    check_origin(self, _: str) -> bool:
-        Allow CROS.
+        @classmethod
+        def get_client_by_object(cls, client_obj: 'WebSocketServer') -> object:
+            Get client by giving an instance.
 
-    set_default_headers(self) -> None:
-        CROS Headers.
+        check_origin(self, _: str) -> bool:
+            Allow CROS.
+
+        set_default_headers(self) -> None:
+            CROS Headers.
     """
 
     connected_clients: Dict[object, Any] = {}

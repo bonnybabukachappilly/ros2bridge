@@ -1,12 +1,17 @@
-"""
-WS Server.
+"""ROS 2 BRIDGE.
 
-start_ioloop:
-    Start IO Loop.
-shutdown_ioloop:
-    Stop IO Loop.
-bridge:
-    Complete ROS websocket bridge.
+This is the main function responsible for creating a bridge between
+ROS 2 DDS and Websocket.
+
+Methods:
+    start_ioloop() -> None:
+        Start the io loop.
+
+    shutdown_ioloop(server: HTTPServer) -> None:
+        Stop the io loop.
+
+    bridge(args: Namespace) -> None:
+        Start ROS WS bridge.
 """
 
 import signal
@@ -25,12 +30,12 @@ from tornado.web import Application
 
 
 def start_ioloop() -> None:
-    """Start the loop."""
+    """Start the io loop."""
     IOLoop.instance().start()
 
 
 def shutdown_ioloop(server: HTTPServer) -> None:
-    """Stop the server loop.
+    """Stop the io loop.
 
     Args:
         server (HTTPServer): Server.
@@ -39,8 +44,10 @@ def shutdown_ioloop(server: HTTPServer) -> None:
 
     def stop_handler(*_) -> None:
         """Stop different signals."""
+
         def shutdown() -> None:
             """Stop the individual signals."""
+
             server.stop()
 
             def stop_loop() -> None:

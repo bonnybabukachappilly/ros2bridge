@@ -1,8 +1,9 @@
-"""
+"""ROS Operations.
+
 Blueprint of ROS Operation.
 
 RosOperationsProtocol:
-    Create ROS Operation.
+    Model class for creating different ros operations.
 """
 
 from dataclasses import dataclass
@@ -16,15 +17,13 @@ class RosOperationsProtocol(Protocol):
     """
     Model class for creating different ros operations.
 
-    Attributes
-    ----------
-    client: Dict[str, Any]
-    data_parser: RosDataParser
+    Attributes:
+        client: Dict[str, Any]
+        data_parser: RosDataParser
 
     Method:
-    -------
-    handle_operation(self, data: Dict) -> None
-        Run ws client based on request.
+        handle_operation(self, data: Dict) -> None
+            Run ws client based on request.
     """
 
     client: Dict[str, Any]

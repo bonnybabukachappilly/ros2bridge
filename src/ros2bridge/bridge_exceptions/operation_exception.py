@@ -1,12 +1,19 @@
-"""
-Exception occurred in ROS operation.
+"""Operation Exception.
 
-OperationNotFoundException:
-    he Operation cannot be found.
+This file contains custom exception for ROS Operations.
+    * Publisher
+    * Subscriber
+    * Service Client
+    * Action Client
+
+
+Class:
+    OperationNotFoundException:
+        Client requested operation cannot be found.
 """
 
 
 class OperationNotFoundException(Exception):
-    """The Operation cannot be found."""
+    """Client requested operation cannot be found."""
 
     ...

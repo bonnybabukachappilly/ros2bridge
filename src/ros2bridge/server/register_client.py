@@ -1,7 +1,10 @@
-"""
+"""Register Client.
+
 Registering new client.
 
-register_client: Register new WS client
+Methods:
+    register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
+        Register new ws client.
 """
 
 from secrets import token_hex

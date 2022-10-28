@@ -1,8 +1,14 @@
-"""
-Module for handling types of messages, services and action.
+"""Data Parser.
 
-RosDataType:
-RosDataParser:
+Module for handling types of messages, services and action.
+This module can be run individually to find out the structure
+of ros operation data structure. Edit details under if __name__
+
+Class:
+    RosDataType(Enum):
+        Available type ROS interface.
+    RosDataParser:
+        Ros data parser handle msg, srv and action ros types.
 """
 from array import array
 from enum import Enum
@@ -25,27 +31,27 @@ class RosDataParser:
     """
     Ros data parser handle msg, srv and action ros types.
 
-    Attributes
-    ----------
-    _data_type: str
-        Ros data type of given instance.
+    Attributes:
+        _data_type: str
+            Ros data type of given instance.
 
-    Methods
-    -------
-    import_type(self, package: str) -> Any
-        Imports client requested module.
+    Methods:
+        import_type(self, package: str) -> Any:
+            Imports client requested module.
 
-    get_module_instance(self, module: str or Any) -> Any
-        Create instance of imported module based of types.
+        get_module_instance(self, module: Any) -> Any:
+            Create instance of imported module based of types.
 
-    get_struct(self, module: Any, output: dict) -> dict
-        Create a structure of ros type.
+        get_struct(self, module: Any, out: Dict[Any, Any]) -> Dict[Any, Any]:
+            Create a structure of ros type.
 
-    pack_data_to_ros(self, data: Any, module: Any) -> Any
-        Convert client message to ros data type.
+        pack_data_to_ros(self, data: Dict[Any, Any], module: Any) -> Any:
+            Convert client message to ros data type.
 
-    pack_data_to_json(self, module: Any, output: dict) -> dict
-        Convert ros data types to json serializable data.
+        pack_data_to_json(
+            self, module: Any, output: Dict[Any, Any]
+        ) -> Dict[Any, Any]:
+            Convert ros data types to json serializable data.
     """
 
     def __init__(self, data_type: RosDataType) -> None:

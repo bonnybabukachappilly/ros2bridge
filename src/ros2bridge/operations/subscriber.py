@@ -1,8 +1,10 @@
-"""
-Implementation of ROS Subscriber.
+"""ROS Subscriber.
 
-RosOperationsProtocol:
-    Create ROS Subscriber.
+This implementation ROS Subscriber functionalities.
+
+Class:
+    WSPublisher:
+        Create ros Subscriber and send message to the client.
 """
 
 import json
@@ -18,24 +20,30 @@ from ros2bridge.utils.data_parser import RosDataParser, RosDataType
 
 @dataclass
 class WSSubscriber:
-    """
-    Implementation of ROS Subscriber.
+    """ROS Subscriber.
 
-    Attributes
-    ----------
-    client: Dict[str, Any]
+    Create ros Subscriber and send message to the client.
 
-    Method:
-    -------
-    handle_operation(self, data: Dict) -> None
-        Run ws client based on request.
+    Attributes:
+        client: Dict[str, Any]
+        data_parser: RosDataParser
+
+    Methods:
+        handle_operation(self, data: Dict[str, Any]) -> None:
+            Create and subscribe to ROS message on client request.
+
+        subscription_callback(self, data: Dict[str, Any], msg: Any) -> None:
+            Handle callback from subscriber and send it to the client.
+
+        check_topic(self, topic_name: str) -> bool:
+            Check if the given topic is already published.
     """
 
     client: Dict[str, Any]
     data_parser = RosDataParser(data_type=RosDataType.MESSAGE)
 
     def handle_operation(self, data: Dict[str, Any]) -> None:
-        """Run ws client based on request.
+        """Create and subscribe to ROS message on client request.
 
         Args:
             data (Dict): Request from ws client.

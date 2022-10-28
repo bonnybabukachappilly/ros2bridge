@@ -1,8 +1,15 @@
-"""
-Routing client message.
+"""Route client message.
 
-get_operation:
-route_message:
+This module routes all client request to corresponding operations.
+
+Methods:
+    get_operation(
+        client: Dict[str, Any], operation: str
+    ) -> RosOperationsProtocol:
+        Get client requested operation.
+
+    route_message(client: Dict[str, Any], message: str) -> None:
+        Route client request.
 """
 import json
 from json.decoder import JSONDecodeError
@@ -22,7 +29,7 @@ def get_operation(client: Dict[str, Any], operation: str) -> RO:
         operation (str): Requested operation
 
     Raises:
-        OperationNotFoundException: _description_
+        OperationNotFoundException: Requested operation not found.
 
     Returns:
         RO: Requested operation.

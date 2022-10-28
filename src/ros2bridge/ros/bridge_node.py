@@ -1,7 +1,10 @@
-"""
-RosWSBridge.
+"""Bridge Node.
 
-Ros Node for the bridge.
+ROS node for ros2bridge.
+
+Class:
+    RosWSBridge(Node):
+        ROS2 Node for creating bridge.
 """
 
 from rclpy.node import Node
@@ -12,7 +15,21 @@ from std_msgs.msg import String
 
 
 class RosWSBridge(Node):
-    """Ros Bridge."""
+    """Ros Bridge.
+
+    ROS2 Node for creating bridge.
+
+    Attributes:
+        client_number:
+            Publisher for publishing number of connected clients.
+        clients_list:
+            Publisher for publishing list of connected clients.
+
+    Methods:
+        publish_client:
+            Publish message when timer expires.
+
+    """
 
     def __init__(self):
         """Ros Bridge."""
@@ -33,7 +50,7 @@ class RosWSBridge(Node):
         self.timer = self.create_timer(1, self.publish_client)
 
     def publish_client(self):
-        """Publish connected clients on timer."""
+        """Publish message when timer expires."""
         msg_clients_list = String()
         msg_clients_no = String()
 

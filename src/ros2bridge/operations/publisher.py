@@ -1,8 +1,10 @@
-"""
-ROS Publisher implementation.
+"""ROS Publisher.
 
-RosOperationsProtocol:
-    Create ROS Operation.
+This implementation ROS Publisher functionalities.
+
+Class:
+    WSPublisher:
+        Create ros publisher and publish client message.
 """
 
 import json
@@ -18,19 +20,20 @@ from ros2bridge.utils.data_parser import RosDataParser, RosDataType
 
 @dataclass
 class WSPublisher:
-    """
-    ROS Publisher.
+    """ROS Publisher.
 
     Create ros publisher and publish client message.
 
-    Attributes
-    ----------
-    client: Dict[str, Any]
+    Attributes:
+        client: Dict[str, Any]
+        data_parser: RosDataParser
 
-    Method:
-    -------
-    handle_operation(self, data: Dict) -> None
-        Run ws client based on request.
+    Methods:
+        handle_operation(self, data: Dict[str, Any]) -> None:
+            Create and publish ROS message on client request.
+
+        check_topic(self, topic_name: str) -> bool:
+            Check if the given topic is already published.
     """
 
     client: Dict[str, Any]
@@ -38,7 +41,7 @@ class WSPublisher:
     data_parser = RosDataParser(data_type=RosDataType.MESSAGE)
 
     def handle_operation(self, data: Dict[str, Any]) -> None:
-        """Run ws client based on request.
+        """Create and publish ROS message on client request.
 
         Args:
             data (Dict): Request from ws client.
