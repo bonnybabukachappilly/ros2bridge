@@ -5,6 +5,6 @@
         "port": 9020
     },
     "constants": {
-        "node_name": "ros_bridge_ws"
+        "node_name": "ros2bridge"
     }
 }

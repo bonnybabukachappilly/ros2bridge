@@ -73,5 +73,8 @@ def route_message(client: Dict[str, Any], message: str) -> None:
 
     except JSONDecodeError:
         msg = 'Unsupported request. Please check the request syntax.'
-        client.get('client').send_message(json.dumps({'ERROR': msg}))
+        ws_client = client.get('client')  # type: ignore [assignment]
+        ws_client.send_message(  # type: ignore [union-attr]
+            json.dumps({'ERROR': msg})
+        )
         print(msg)

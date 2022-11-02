@@ -1,0 +1,38 @@
+[
+{
+    "operation": "action_client",
+    "action": "create",
+    "action_name": "/compute_path_to_pose",
+    "action_type": "nav2_msgs/ComputePathToPose"
+},
+{
+    "operation": "action_client",
+    "action": "call",
+    "action_name": "/compute_path_to_pose",
+    "action_type": "nav2_msgs/ComputePathToPose",
+    "message": {
+        "_pose": {
+            "_header": {
+                "_stamp": {
+                    "_sec": 13,
+                    "_nanosec": 401000000
+                }
+            },
+            "_pose": {
+                "_position": {
+                    "_x": 0.15,
+                    "_y": -0.005,
+                    "_z": 0.0
+                },
+                "_orientation": {
+                    "_x": 0.0,
+                    "_y": 0.0,
+                    "_z": -0.0038,
+                    "_w": 0.999
+                }
+            }
+        },
+        "_planner_id": "< class 'str' >"
+    }
+}
+]

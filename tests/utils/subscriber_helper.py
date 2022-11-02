@@ -1,4 +1,4 @@
-"""Helper for service testing."""
+"""Helper for subscriber testing."""
 
 import json
 from time import sleep
@@ -6,20 +6,18 @@ from time import sleep
 from websocket._core import WebSocket
 
 
-class ServiceTurtleBot:
+class SubscribeTurtleBot:
     """_summary_."""
 
-    def __init__(self, srv_name, srv_type, message) -> None:
+    def __init__(self, msg_topic, msg_type) -> None:
         """_summary_.
 
         Args:
-            srv_name (_type_): _description_
-            srv_type (_type_): _description_
-            message (_type_): _description_
+            msg_topic (_type_): _description_
+            msg_type (_type_): _description_
         """
-        self._name = srv_name
-        self._type = srv_type
-        self._message = message
+        self._topic = msg_topic
+        self._type = msg_type
 
         self._pre_message = None
 
@@ -41,42 +39,28 @@ class ServiceTurtleBot:
         """
         self._websocket = websocket
 
-    def ws_srv_client(self, call=False) -> None:
-        """Send a message via ws for testing.
+    def ws_subscribe(self, deactivate=False) -> None:
+        """_summary_.
 
         Args:
-            call (bool, optional): Call service. Defaults to False.
+            deactivate (bool, optional): _description_. Defaults to False.
         """
-        service_create = {
-            'operation': 'srv_client',
-            'action': 'create',
-            'srv_name': self._name,
-            'srv_type': self._type,
+        subscriber = {
+            'operation': 'subscribe',
+            'topic': self._topic,
+            'type': self._type,
         }
 
-        service_call = {
-            'operation': 'srv_client',
-            'action': 'call',
-            'srv_name': self._name,
-            'srv_type': self._type,
-            'message': self._message,
-        }
+        if deactivate:
+            subscriber['unsubscribe'] = True
 
-        if call:
-            self._websocket.send(json.dumps(service_call))
-        self._websocket.send(json.dumps(service_create))
-
-    def create_call_service(self) -> None:
-        """_summary_."""
-        self.ws_srv_client()
-        sleep(2)
-        self.ws_srv_client(call=True)
+        self._websocket.send(json.dumps(subscriber))
 
     def get_message(self, old_data=False, keys: list = None) -> dict:
         """Get message from websocket for testing.
 
         Args:
-            old_data (bool, optional): previous data. Defaults to False.
+            old_data (bool, optional): Send previously fetched data.. Defaults to False.
             keys (list, optional): Filter data based on key. Defaults to None.
 
         Returns:
@@ -93,7 +77,7 @@ class ServiceTurtleBot:
             _recv: dict = json.loads(self._websocket.recv())
             _count -= 1
 
-            if _recv.get('srv_name') == self._name:
+            if _recv.get('topic') == self._topic:
                 break
 
             if _count < 0:

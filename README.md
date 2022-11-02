@@ -142,11 +142,53 @@ For calling a service client
 
 * NOTE: message should be in the format of service type
 
-----
+### ACTION CLIENT
 
-----
+For creating a action client
+
+```json
+{
+    "operation": "action_client",
+    "action": "create",
+    "action_name": "/<action_name>",
+    "action_type": "<action_parent>/<action_type>"
+}
+```
+
+For calling a action client
+
+```json
+{
+    "operation": "action_client",
+    "action": "call",
+    "action_name": "/<action_name>",
+    "action_type": "<action_parent>/<action_type>",
+    "message": "<message>"
+}
+```
+
+* NOTE: message should be in the format of action type
+
+Feedback from calling a action client
+
+```json
+{
+    "operation": "action_client",
+    "action": "call",
+    "action_response": "<action_response>",
+    "action_name": "/<action_name>",
+    "action_type": "<action_parent>/<action_type>",
+    "message": "<message>"
+
+}
+```
+
+* NOTE: message should be in the format of action type.
+* NOTE: action_response will be any of 'response', 'feedback', 'result'.
 
 ## Testing
+
+----
 
 For testing using tox, ROS package is required and I haven't find a way to get around it. So testing withing the system.
 

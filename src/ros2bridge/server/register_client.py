@@ -13,8 +13,9 @@ from typing import Any, Dict, Type
 import rclpy
 from rclpy.node import Node
 
+from ros2bridge.operations.action_client import WSActionClient
 from ros2bridge.operations.publisher import WSPublisher
-from ros2bridge.operations.service_client import WSSrvClient
+from ros2bridge.operations.service_client import WSServiceClient
 from ros2bridge.operations.subscriber import WSSubscriber
 from ros2bridge.protocols.ws_server import WSServerProtocol as WS
 
@@ -33,7 +34,7 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
         Dict[str, Any]: Client info.
     """
     _client_id = f'client_{token_hex(8)}'
-    _node = Node(_client_id)
+    _node = Node(f'ros2bridge_{_client_id}')
 
     ros_node = PeriodicCallback(
         lambda: rclpy.spin_once(  # type: ignore [no-any-return]
@@ -63,8 +64,8 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
     _operations = {
         'publish': WSPublisher(_new_client),
         'subscribe': WSSubscriber(_new_client),
-        'srv_client': WSSrvClient(_new_client),
-        # 'action_client': None
+        'srv_client': WSServiceClient(_new_client),
+        'action_client': WSActionClient(_new_client)
     }
 
     _new_client['operations'] = _operations

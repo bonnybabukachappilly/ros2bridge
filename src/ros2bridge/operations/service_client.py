@@ -3,7 +3,7 @@
 This implementation ROS Service Client functionalities.
 
 Class:
-    WSSrvClient:
+    WSServiceClient:
         Create ros service client.
 """
 
@@ -19,7 +19,7 @@ from ros2bridge.utils.data_parser import RosDataParser, RosDataType
 
 
 @dataclass
-class WSSrvClient:
+class WSServiceClient:
     """ROS Service Client.
 
     Create ros service client.
@@ -52,7 +52,7 @@ class WSSrvClient:
 
         if action == 'create':
             print(
-                f'Client: {_client_name} created a publisher. | ' +
+                f'Client: {_client_name} created a service client. | ' +
                 f'Service Name: {srv_name} | Type: {srv_type}'
             )
 

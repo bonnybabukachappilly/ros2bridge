@@ -33,7 +33,7 @@ class RosWSBridge(Node):
 
     def __init__(self):
         """Ros Bridge."""
-        super().__init__('ros_bridge_ws')
+        super().__init__('ros2bridge')
 
         self.client_number = self.create_publisher(
             String,

@@ -47,7 +47,6 @@ def shutdown_ioloop(server: HTTPServer) -> None:
 
         def shutdown() -> None:
             """Stop the individual signals."""
-
             server.stop()
 
             def stop_loop() -> None:
