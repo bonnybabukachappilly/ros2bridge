@@ -4,12 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ros2bridge"
-version = "0.0.8"
+version = "0.1.0"
 description = "A bridge between websocket and DDS of ROS 2"
 readme = "README.md"
 authors = [{ name = "Bonny Babu", email = "bonnybabukachappilly@gmail.com" }]
 classifiers = [
-    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
