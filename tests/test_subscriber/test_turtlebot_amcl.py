@@ -4,10 +4,17 @@ from tests.utils.subscriber_helper import SubscribeTurtleBot
 
 _topic = '/amcl_pose'
 _type = 'geometry_msgs/PoseWithCovarianceStamped'
+_qos = {
+    'durability': 'transient_local',
+    'reliability': 'reliable',
+    'history': 'keep_last',
+    'depth': 10
+}
 
 subscribe = SubscribeTurtleBot(
     msg_topic=_topic,
-    msg_type=_type
+    msg_type=_type,
+    qos=_qos
 )
 
 
@@ -15,6 +22,7 @@ def test_message(ws_conn) -> None:
     """Test message keys."""
     subscribe.set_websocket = ws_conn
     subscribe.ws_subscribe()
+
     _keys = ['header', 'pose']
 
     _msg = subscribe.get_message(old_data=True)

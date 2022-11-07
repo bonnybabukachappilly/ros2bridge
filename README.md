@@ -186,6 +186,44 @@ Feedback from calling a action client
 * NOTE: message should be in the format of action type.
 * NOTE: action_response will be any of 'response', 'feedback', 'result'.
 
+### QOS PROFILE
+
+Added QoS profile to subscription.
+No validation of QoS is added and no error is send back to client.
+
+Available QoS settings for subscriber:
+
+* QoSReliabilityPolicy
+* QoSDurabilityPolicy
+* QoSHistoryPolicy
+
+For creating a Qos Profile add following in addition to above request syntax
+
+```json
+"qos" : {
+    "durability": "<durability>",
+    "reliability": "<reliability>",
+    "history": "<history>",
+}
+```
+
+For options to provide please refer [this docs]('https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+
+General request will be look like
+
+```json
+{
+    "operation": "subscribe",
+    "topic": "/<topic_name>",
+    "type": "<message_parent>/<message_type>",
+    "qos" : {
+        "durability": "<durability>",
+        "reliability": "<reliability>",
+        "history": "<history>",
+    }
+}
+```
+
 ## Testing
 
 ----

@@ -83,9 +83,11 @@ class WSSubscriber:
 
         partial_callback = partial(self.subscription_callback, data)
 
-        # TODO: ADD QOS PROFILES
-        # _qos = get_qos_profile(_qos) if (_qos := data.get('qos')) else 10
-        _qos = 10
+        if qos := data.get('qos_profile'):
+            _qos = qos
+            del data['qos_profile']
+        else:
+            _qos = 10
 
         subscriber = self._node.create_subscription(
             ros_msg_type,

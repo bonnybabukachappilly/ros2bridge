@@ -15,6 +15,8 @@ import json
 from json.decoder import JSONDecodeError
 from typing import Any, Dict
 
+from rclpy.qos import QoSProfile
+
 from ros2bridge.bridge_exceptions.operation_exception import (
     OperationNotFoundException
 )
@@ -60,6 +62,11 @@ def route_message(client: Dict[str, Any], message: str) -> None:
     """
     try:
         _msg = json.loads(message)
+
+        _qos = client['addons']['qos_profile']
+        _profile = _qos.handle_profile(_msg)
+        if isinstance(_profile, QoSProfile):
+            _msg['qos_profile'] = _profile
 
         _operation: RO = get_operation(
             client=client,

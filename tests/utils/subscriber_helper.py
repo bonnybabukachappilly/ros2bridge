@@ -9,7 +9,7 @@ from websocket._core import WebSocket
 class SubscribeTurtleBot:
     """_summary_."""
 
-    def __init__(self, msg_topic, msg_type) -> None:
+    def __init__(self, msg_topic, msg_type, qos=None) -> None:
         """_summary_.
 
         Args:
@@ -18,6 +18,7 @@ class SubscribeTurtleBot:
         """
         self._topic = msg_topic
         self._type = msg_type
+        self._qos = qos
 
         self._pre_message = None
 
@@ -51,6 +52,9 @@ class SubscribeTurtleBot:
             'type': self._type,
         }
 
+        if self._qos:
+            subscriber['qos'] = self._qos
+
         if deactivate:
             subscriber['unsubscribe'] = True
 
@@ -71,7 +75,7 @@ class SubscribeTurtleBot:
                 return self.get_by_key(self._pre_message, keys)
             return self._pre_message
 
-        _count = 10
+        _count = 5
 
         while True:
             _recv: dict = json.loads(self._websocket.recv())
@@ -83,6 +87,7 @@ class SubscribeTurtleBot:
             if _count < 0:
                 assert False
             sleep(1)
+
 
         self._pre_message = _recv.get('message')
 

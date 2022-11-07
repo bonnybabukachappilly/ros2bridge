@@ -18,6 +18,7 @@ from ros2bridge.operations.publisher import WSPublisher
 from ros2bridge.operations.service_client import WSServiceClient
 from ros2bridge.operations.subscriber import WSSubscriber
 from ros2bridge.protocols.ws_server import WSServerProtocol as WS
+from ros2bridge.qos_profile.qos_profile import QosProfile
 
 from tornado.ioloop import PeriodicCallback
 
@@ -68,7 +69,12 @@ def register_client(socket: Type[WS], client: WS) -> Dict[str, Any]:
         'action_client': WSActionClient(_new_client)
     }
 
+    _addons = {
+        'qos_profile': QosProfile(_new_client),
+    }
+
     _new_client['operations'] = _operations
+    _new_client['addons'] = _addons
 
     return {
         _client_id: _new_client
