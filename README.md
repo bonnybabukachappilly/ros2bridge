@@ -52,8 +52,8 @@ python3 -m ros2bridge
 **TODO :**
 
 * Subscriber
-* Service Client
-* Action Client
+* Service Server
+* Action Server
 
 ## Request structure
 
