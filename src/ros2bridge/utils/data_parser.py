@@ -148,6 +148,36 @@ class RosDataParser:
             return module
         except AttributeError:
             return data
+        except AssertionError as e:
+            if 'PoseStamped' in e:  # type: ignore [operator]
+                return self.handle_FollowWaypoints(data, key, module)
+
+    def handle_FollowWaypoints(self, data, key, module):
+        """
+        Temporary fix for PostStamped.
+
+        Args:
+            data (Dict[Any, Any]): Data to pack as ros data.
+            module (Any): Ros data to which user data is mapped.
+
+        Returns:
+            Any: Ros data.
+        """
+        parser = self.__class__(data_type=RosDataType.MESSAGE)
+        _module = parser.get_module_instance(
+            module='geometry_msgs/PoseStamped'
+        )
+        _data = data[key]
+        _pose_data = []
+        for poses in _data:
+            pose = parser.pack_data_to_ros(
+                data=poses,
+                module=_module
+            )
+            _pose_data.append(pose)
+
+        setattr(module, key, _pose_data)
+        return module
 
     def pack_data_to_json(
             self, module: Any, output: Dict[Any, Any]) -> Dict[Any, Any]:
@@ -174,13 +204,13 @@ class RosDataParser:
 
         except AttributeError:
             if isinstance(module, (array, np.ndarray)):
-                return module.tolist()  # type: ignore [return-value]
-            return module  # type: ignore [no-any-return]
+                return module.tolist()  # type: ignore [no-any-return]
+            return module  # type: ignore [unreachable]
 
 
 if __name__ == '__main__':
-    _type = RosDataType.ACTION
-    _action = 'nav2_msgs/FollowPath'
+    _type = RosDataType.MESSAGE
+    _action = 'geometry_msgs/PoseStamped'
 
     ros_data = RosDataParser(data_type=_type)
 

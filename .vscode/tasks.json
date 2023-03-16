@@ -1,0 +1,54 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build & install",
+            "type": "shell",
+            "linux": {
+                "command": "python3 setup.py bdist_wheel sdist && pip3 install ."
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Gazebo",
+            "type": "shell",
+            "linux": {
+                "command": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rviz",
+            "type": "shell",
+            "linux": {
+                "command": "ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=$HOME/map.yaml"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Server",
+            "type": "shell",
+            "linux": {
+                "command": "python3 -m ros2bridge"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
