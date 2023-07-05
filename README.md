@@ -5,9 +5,9 @@
 
 ## Overview
 
-This is a package for converting ROS 2 DDS to websocket. This project was inspired by [rosbridge_suite](https://github.com/RobotWebTools/rosbridge_suite) by [Robo Web Tools](https://github.com/RobotWebTools). The implemented features are not for specific topics or services but all available ros interfaces. It's in early development, and not all interfaces are tested. Any bug reported will be fixed in upcoming releases.
+This is a package for converting ROS 2 DDS to WebSocket. This project was inspired by [rosbridge_suite](https://github.com/RobotWebTools/rosbridge_suite) by [Robo Web Tools](https://github.com/RobotWebTools). The implemented features are not for specific topics or services but all available ros interfaces. It's in early development, and not all interfaces are tested. Any bug reported will be fixed in upcoming releases.
 
-When using the suite, I faced issues with ROS 2 and couldn't find a way to move forward. So I decided to create another which is not advanced as the suite but gets my job done. I decided to package it and publish it on PyPI for easy availability to others and learning purposes. The code I use is different, and the features are not the same. The client libraries for the suite won't work because this is not a suite clone.
+When using the suite, I faced issues with ROS 2 and couldn't find a way to move forward. So I decided to create another which is not advanced as the suite but gets my job done. I decided to package it and publish it on PyPI for easy availability to others and for learning purposes. The code I use is different, and the features are not the same. The client libraries for the suite won't work because this is not a suite clone.
 
 **Note: This project is not a suite clone. The architecture and implementation are different. Not all the features of the suite are not available in this project.**
 
@@ -38,8 +38,8 @@ python3 -m ros2bridge
 
 **optional parameters:**
 
-* -p, --port : For specific port. Default is 9020
-* -n, --ngrok : By default, websocket is hosted on local-IP. If this flag is set ws is hosted internally
+* -p, --port: For specific port. Default is 9020
+* -n, --ngrok: WebSocket is hosted on local IP by default. If this flag is set ws are hosted internally
 
 **NOTE: for using custom ros interface source that workspace before running the bridge.**
 
@@ -48,10 +48,11 @@ python3 -m ros2bridge
 ----
 
 * Publisher
-
-**TODO :**
-
 * Subscriber
+* Service Client
+* Action Client
+
+**TODO:**
 * Service Server
 * Action Server
 
@@ -71,8 +72,8 @@ python3 -m ros2bridge
 ```
 
 * type eg: 'std_msgs/String'
-* message eg: {"data" : "HELLO WORLD !"}
-* NOTE: message should be in the format of message type
+* message eg: {"data": "HELLO WORLD !"}
+* NOTE: the message should be in the format of the message type
 
 ### Subscriber
 
@@ -86,7 +87,7 @@ python3 -m ros2bridge
 
 * type eg: 'std_msgs/String'
 
-NOTE: Subscribed message will return in this format.
+NOTE: Subscribed messages will return in this format.
 
 ```json
 
@@ -99,9 +100,9 @@ NOTE: Subscribed message will return in this format.
 ```
 
 * type eg: 'std_msgs/String'
-* message eg: {"data" : "HELLO WORLD !"}
+* message eg: {"data": "HELLO WORLD !"}
 
-NOTE: To unsubscribe from a topic send following message to server
+NOTE: To unsubscribe from a topic send the following message to the server
 
 ```json
 {
@@ -140,11 +141,11 @@ For calling a service client
 }
 ```
 
-* NOTE: message should be in the format of service type
+* NOTE: the message should be in the format of the service type
 
 ### ACTION CLIENT
 
-For creating a action client
+For creating an action client
 
 ```json
 {
@@ -155,7 +156,7 @@ For creating a action client
 }
 ```
 
-For calling a action client
+For calling an action client
 
 ```json
 {
@@ -167,9 +168,9 @@ For calling a action client
 }
 ```
 
-* NOTE: message should be in the format of action type
+* NOTE: the message should be in the format of action type
 
-Feedback from calling a action client
+Feedback from calling an action client
 
 ```json
 {
@@ -183,40 +184,40 @@ Feedback from calling a action client
 }
 ```
 
-* NOTE: message should be in the format of action type.
-* NOTE: action_response will be any of 'response', 'feedback', 'result'.
+* NOTE: the message should be in the format of action type.
+* NOTE: action_response will be any of 'response', 'feedback', or 'result'.
 
 ### QOS PROFILE
 
-Added QoS profile to subscription.
-No validation of QoS is added and no error is send back to client.
+I added a QoS profile to the subscription.
+No validation of QoS is added and no error is sent back to the client.
 
-Available QoS settings for subscriber:
+Available QoS settings for subscribers:
 
 * QoSReliabilityPolicy
 * QoSDurabilityPolicy
 * QoSHistoryPolicy
 
-For creating a Qos Profile add following in addition to above request syntax
+For creating a Qos Profile add the following in addition to the above request syntax
 
 ```json
-"qos" : {
+"qos": {
     "durability": "<durability>",
     "reliability": "<reliability>",
     "history": "<history>",
 }
 ```
 
-For options to provide please refer [this docs]('https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+For options to provide please refer [to this docs]('https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
 
-General request will be look like
+A general request will look like
 
 ```json
 {
     "operation": "subscribe",
     "topic": "/<topic_name>",
     "type": "<message_parent>/<message_type>",
-    "qos" : {
+    "qos": {
         "durability": "<durability>",
         "reliability": "<reliability>",
         "history": "<history>",
@@ -228,7 +229,7 @@ General request will be look like
 
 ----
 
-For testing using tox, ROS package is required and I haven't find a way to get around it. So testing withing the system.
+For testing using tox, the ROS package is required and I haven't found a way to get around it. So testing within the system.
 
 * MYPY
 * FLAKE8
